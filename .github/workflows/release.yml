@@ -1,0 +1,41 @@
+name: Release fonts
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-font:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create dist folder
+        run: mkdir dist
+
+      - name: Move font
+        run: |
+          mv JetBrainsMono/*.ttf dist
+          mv Inter/*.otf dist
+          mv LiberationMono/*.otf dist
+          mv Roboto/*.ttf dist
+          mv RobotoMono/*.ttf dist
+
+      - name: Create zip file
+        run: cd dist && zip -r linux-fonts.zip . && mv linux-fonts.zip ..
+
+      - name: Create tar file
+        run: cd dist && tar -czvf linux-fonts.tar.gz *.* && mv linux-fonts.tar.gz ..
+
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: latest
+          files: |
+            linux-fonts.tar.gz
+            linux-fonts.zip
