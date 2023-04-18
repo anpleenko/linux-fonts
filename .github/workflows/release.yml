@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: "0 0 1 * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Update dependencies
+        run: sudo apt update
+
+      - name: Install dependencies
+        run: sudo apt install -y ttfautohint
+
+      - name: Clone Iosevka git repo
+        run: git clone --depth 1 https://github.com/be5invis/Iosevka.git iosevka
+
+      - name: Install npm packages
+        run: cd iosevka && npm install
+
+      - name: Copy config
+        run: cp private-build-plans.toml iosevka
+
+      - name: Build font
+        run: cd iosevka && npm run build -- ttf::iosevka
+
+      - name: Create dist folder
+        run: mkdir dist
+
+      - name: Move font
+        run: |
+          mv iosevka/dist/iosevka/ttf/*ttf dist
+          mv JetBrainsMono/*.ttf dist
+          mv Inter/*.otf dist
+          mv Roboto/*.ttf dist
+          mv RobotoMono/*.ttf dist
+
+      - name: Create tar file
+        run: cd dist && tar -czvf linux-fonts.tar *.*
+
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: latest
+          files: |
+            dist/linux-fonts.tar
