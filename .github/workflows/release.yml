@@ -42,7 +42,7 @@ jobs:
         run: |
           mv iosevka/dist/iosevka/ttf/*ttf dist
           mv JetBrainsMono/*.ttf dist
-          mv Inter/*.otf dist
+          mv Inter/*.ttf dist
           mv Roboto/*.ttf dist
           mv RobotoMono/*.ttf dist
 
