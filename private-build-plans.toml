@@ -3,7 +3,7 @@ family = "Iosevka"
 spacing = "normal"
 serifs = "sans"
 noCvSs = true
-no-ligation = true
+noLigation = true
 
   [buildPlans.iosevka.variants]
   inherits = "ss12"
