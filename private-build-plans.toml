@@ -1,14 +1,14 @@
-[buildPlans.Iosevka]
+[buildPlans.iosevka]
 family = "Iosevka"
 spacing = "normal"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
 
-  [buildPlans.Iosevka.variants]
+  [buildPlans.iosevka.variants]
   inherits = "ss12"
 
-    [buildPlans.Iosevka.variants.design]
+    [buildPlans.iosevka.variants.design]
     capital-g = "toothless-rounded-serifless-hooked"
     capital-i = "short-serifed"
     capital-j = "serifed"
