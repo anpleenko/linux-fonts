@@ -45,6 +45,7 @@ jobs:
           mv Inter/*.ttf dist
           mv Roboto/*.ttf dist
           mv RobotoMono/*.ttf dist
+          mv FiraSans/*.ttf dist
 
       - name: Create tar file
         run: cd dist && tar -czvf linux-fonts.tar *.*
